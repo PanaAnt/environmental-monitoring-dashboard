@@ -1,0 +1,23 @@
+# Environment variables (CRITICAL - contains passwords!)
+.env
+
+# Python and other
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+dist/
+build/
+.lgd-*
+*.fifo
+
+# Virtual Environment
+venv/
+
+# Logs
+logs/
+*.log
+
+# Personal notes
+test.py
