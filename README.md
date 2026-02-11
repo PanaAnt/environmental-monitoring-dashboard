@@ -11,15 +11,12 @@
 
 Real-time IoT temperature and humidity monitoring with automated email alerts.
 
-[Features](#features) •
-[Installation](#installation) •
-[Usage](#usage) •
-[Demo](#demo)
+[Main Features](#features) •
+[Installation & Setup](#installation) •
+[Usage](#usage)
 
-![envirodash-web-example](https://github.com/user-attachments/assets/7ffc2cc8-fa86-4126-b4b2-dbd07ff54bd6)
-
-
-
+![rpienvirodashboard-lq](https://github.com/user-attachments/assets/dd160694-80ed-43d0-bb2b-1ef3f4e3ce89)
+<p><b>gif is sped up 2x</b></p>
 </div>
 
 ---
@@ -56,7 +53,7 @@ graph LR
 ```
 
 
-## 📦 Installation & setup
+## Installation & Setup
 
 ### Prerequisites
 - Raspberry Pi (tested on Raspberry Pi 5, 64 bit RPi full OS)
