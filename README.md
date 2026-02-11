@@ -11,8 +11,8 @@
 
 Real-time IoT temperature and humidity monitoring with automated email alerts.
 
-[Main Features](#features) •
-[Installation & Setup](#installation) •
+[Main Features](#main-features) •
+[Installation & Setup](#installation--setup) •
 [Usage](#usage)
 
 ![rpienvirodashboard-lq](https://github.com/user-attachments/assets/dd160694-80ed-43d0-bb2b-1ef3f4e3ce89)
