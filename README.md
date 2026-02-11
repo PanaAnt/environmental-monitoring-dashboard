@@ -12,7 +12,7 @@
 Real-time IoT temperature and humidity monitoring with automated email alerts.
 
 [Main Features](#main-features) •
-[Installation & Setup](#installation--setup) •
+[Installation & Setup](#-installation--setup) •
 [Usage](#usage)
 
 ![rpienvirodashboard-lq](https://github.com/user-attachments/assets/dd160694-80ed-43d0-bb2b-1ef3f4e3ce89)
@@ -53,7 +53,7 @@ graph LR
 ```
 
 
-## Installation & Setup
+## 📦 Installation & Setup
 
 ### Prerequisites
 - Raspberry Pi (tested on Raspberry Pi 5, 64 bit RPi full OS)
@@ -135,7 +135,6 @@ server {
 ```
 
 
-
 ## Usage
 
 ### Start Services
@@ -157,7 +156,6 @@ gunicorn --workers <e.g. 4> --threads <e.g. 4> --worker-class gthread --bind <YO
 Open browser: `http://(YOUR_IP):(YOUR_PORT)/`
 
 
-
 ## API Endpoints
 
 | Endpoint | Method | Description |
@@ -176,7 +174,6 @@ Open browser: `http://(YOUR_IP):(YOUR_PORT)/`
 ```
 
 
-
 ## ⚙️ Configuration
 
 Edit `.env` file:
@@ -193,7 +190,6 @@ ALERT_COOLDOWN=180 # Seconds between alerts
 ```
 
 
-
 ##⚡️Performance
 NOTE: This is my attainment under my personal circumstances
 - **Throughput:** 250+ requests/second
@@ -203,8 +199,7 @@ NOTE: This is my attainment under my personal circumstances
 
 ### **APACHE BENCHMARK RESULTS**
 
-<p></p>
-**Dashboard (main page):**
+**Main Page Dashboard:**
 <div align="center">
   <img width="590" height="863" alt="image" src="https://github.com/user-attachments/assets/bbb70316-0b5b-4f79-9f2a-279cb4303856" />
 </div>
