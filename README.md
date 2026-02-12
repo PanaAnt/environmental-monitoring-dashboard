@@ -9,24 +9,37 @@
 ![nginx](https://img.shields.io/badge/nginx-1.26+-darkgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-Real-time IoT temperature and humidity monitoring with automated email alerts.
+Real-time IoT temperature and humidity monitoring with a dashboard and automated email alerts.
 
 [Main Features](#main-features) •
 [Installation & Setup](#-installation--setup) •
 [Usage](#usage)
 
 ![rpienvirodashboard-lq](https://github.com/user-attachments/assets/dd160694-80ed-43d0-bb2b-1ef3f4e3ce89)
-<p><b>gif is sped up 2x</b></p>
+<p><b>*sped-up 2x</b></p>
 </div>
 
 ---
 
 
+## Project Purpose
+### Personal Reason:
+I wanted to monitor the environment inside my family's greenhouse to better assist in maintaining adequate conditions for optimal plant/veg growth. I’m also exploring the idea of repurposing this project for a small future server room, so analysing stability, heat behaviour, and airflow over time is both practical and technically interesting. 
+
+### Technical Reason:
+I built this project to deepen my understanding of embedded systems and how software interacts directly with hardware in real-world environments. Working with a Raspberry Pi and an AHT20 temperature/humidity sensor allowed me to move beyond purely software-based applications and explore hardware communication (I2C), data acquisition, and reliable polling in a constrained system that is accesible to my Local Area Network (LAN). 
+
+### Real-World Application
+Although I built this to monitor environmental conditions in my own greenhouse, and determine how effective it would be for a small server room, this architecture has a wide range of practical applications associated with monitoring and/or obtaining meteorological data. Overall, I see myself repurposing this for future projects.
+
+
+
 ## Main Features
 
 - 🌡️ **Real-time Monitoring** - AHT20 sensor via I2C protocol (2-second intervals)
-- 📊 **Live Visualization** - Chart.js graphs with auto-scaling axes
-- 📧 **Smart Alerts** - Email notifications when temperature exceeds/falls outside 17-26°C
+- 📊 **Live Visualisation** - Chart.js graphs with auto-scaling axes
+- 📧 **Smart Alerts** - Email notifications when temperature exceeds/falls outside 17-26°C 
+
 
 
 ## 🛠️ Tech Stack
@@ -121,7 +134,7 @@ server {
 
     # API requests - proxied to Gunicorn
     location /EnviroBoard/ {
-        proxy_pass http://127.0.0.1:5000/;
+        proxy_pass http://<YOUR_IP>:<YOUR_PORT>/;
         
         # Proxy headers
         proxy_set_header Host $host;
@@ -190,8 +203,8 @@ ALERT_COOLDOWN=180 # Seconds between alerts
 ```
 
 
-##⚡️Performance
-NOTE: This is my attainment under my personal circumstances
+## ⚡️Performance
+<p> <b>NOTE</b>: This is what I achieved under my conditions, your results will vary.</p>
 - **Throughput:** 250+ requests/second
 - **Response Time:** Sub-40ms average
 - **Workers:** 4 parallel Gunicorn processes
