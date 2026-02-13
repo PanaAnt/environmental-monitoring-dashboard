@@ -1,175 +1,41 @@
 <!DOCTYPE html>
 <html lang="eng">
 <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-        <div class="container">
-            <div class="card">
-                <h1>Environment Monitor</h1>
-
-                <div class="reading">
-                    <div class="value">
-                        <span id="Temperature">--</span>
-                        <span class="unit">°C</span>
-                    </div>
-                    <div class="label">Temperature</div>
+    <div class="container">
+        <div class="card">
+            <h1>Environment Monitor</h1>
+            <div class="reading">
+                <div class="value">
+                    <span id="Temperature">--</span>
+                    <span class="unit">°C</span>
                 </div>
-
-                <div class="reading">
-                    <div class="value">
-                        <span id="Humidity">--</span>
-                        <span class="unit">%</span>
-                    </div>
-                    <div class="label">Humidity</div>
+                <div class="label">Temperature</div>
+            </div>
+            <div class="reading">
+                <div class="value">
+                    <span id="Humidity">--</span>
+                    <span class="unit">%</span>
                 </div>
-
-                <div style="width: 100%; max-width: 600px;">
-                    <canvas id="tempChart" height="150"></canvas>
-                </div>
-
-                <div style="width: 100%; max-width: 600px;">
-                    <canvas id="humidityChart" height="150"></canvas>
-                </div>
-
-                <div class="footer">
-                    Updates every 2 seconds
-                </div>
+                <div class="label">Humidity</div>
+            </div>
+            <div style="width: 100%; max-width: 600px;">
+                <canvas id="tempChart" height="150"></canvas>
+            </div>
+            <div style="width: 100%; max-width: 600px;">
+                <canvas id="humidityChart" height="150"></canvas>
+            </div>
+            <div class="footer">
+                Updates every 2 seconds
             </div>
         </div>
-
-        <script>
-                const temperature = document.getElementById("Temperature");
-                const humidity = document.getElementById("Humidity");
-
-                // Canvas contexts for two separate charts
-                const tempCtx = document.getElementById("tempChart").getContext("2d");
-                const humCtx = document.getElementById("humidityChart").getContext("2d");
-
-                const MAX_POINTS = 20;
-
-                //TEMPERATURE CHART
-                const tempChart = new Chart(tempCtx, {
-                    type: "line",
-                    data: {
-                        labels: [],
-                        datasets: [{
-                            label: "Temperature (°C)",
-                            data: [],
-                            borderWidth: 2,
-                            borderColor: "rgb(255,99,132)",
-                            backgroundColor: "rgba(255,99,132,0.2)",
-                            tension: 0.35
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                min: function(ctx) {
-                                    const data  = ctx.chart.data.datasets[0].data;
-                                    if (!data.length) return 0;
-                                    return Math.min(...data) - 2;
-                                },
-                                max: function(ctx) {
-                                    const data = ctx.chart.data.datasets[0].data;
-                                    if (!data.length) return 50;
-                                    return Math.max(...data) + 2;
-                                },
-                                ticks: { maxTicksLimit: 7, color: "white"}
-                            },
-                            x: { display: false }
-                        },
-                        plugins: {
-                            legend: { labels: { color: "white" } }
-                        }
-                    }
-                });
-
-                //HUMIDITY CHART 
-                const humChart = new Chart(humCtx, {
-                    type: "line",
-                    data: {
-                        labels: [],
-                        datasets: [{
-                            label: "Humidity (%)",
-                            data: [],
-                            borderWidth: 2,
-                            borderColor: "rgb(54,162,235)",
-                            backgroundColor: "rgba(54,162,235,0.2)",
-                            tension: 0.35
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        scales: {
-                            y: {
-                                min: function(ctx) {
-                                    const data  = ctx.chart.data.datasets[0].data;
-                                    if (!data.length) return 0;
-                                    return Math.min(...data) - 5;
-                                },
-                                max: function(ctx) {
-                                    const data = ctx.chart.data.datasets[0].data;
-                                    if (!data.length) return 100;
-                                    return Math.max(...data) + 5;
-                                },
-                                ticks: { maxTicksLimit: 7, color: "white" }
-                            },
-                            x: { display: false }
-                        },
-                        plugins: {
-                            legend: { labels: { color: "white" } }
-                        }
-                    }
-                });
-
-                //UPDATE 
-                async function fetchSensorData() {
-                    try {
-                        const response = await fetch("api/sensor/latest");
-                        const data = await response.json();
-
-                        if (data.temperature !== undefined) {
-                            // Update live values
-                            temperature.textContent = data.temperature.toFixed(2);
-                            humidity.textContent = data.humidity.toFixed(2);
-
-                            const label = new Date().toLocaleTimeString();
-
-                            // Update temperature chart
-                            tempChart.data.labels.push(label);
-                            tempChart.data.datasets[0].data.push(data.temperature);
-                            if (tempChart.data.labels.length > MAX_POINTS) {
-                                tempChart.data.labels.shift();
-                                tempChart.data.datasets[0].data.shift();
-                            }
-                            tempChart.update();
-
-                            // Update humidity chart
-                            humChart.data.labels.push(label);
-                            humChart.data.datasets[0].data.push(data.humidity);
-                            if (humChart.data.labels.length > MAX_POINTS) {
-                                humChart.data.labels.shift();
-                                humChart.data.datasets[0].data.shift();
-                            }
-                            humChart.update();
-                        }
-                    } catch (error) {
-                        console.error("Error fetching sensor data:", error);
-                    }
-                }
-
-                // Initial fetch
-                fetchSensorData();
-
-                // Update every 2 seconds
-                setInterval(fetchSensorData, 2000);
-        </script>
+    </div>
+    
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>
