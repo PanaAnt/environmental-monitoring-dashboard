@@ -36,7 +36,7 @@ Although I built this to monitor environmental conditions in my own greenhouse, 
 
 ## Main Features
 
-- 🌡️ **Real-time Monitoring** - AHT20 sensor via I2C protocol (2-second intervals)
+- 🌡️ **Real-time Monitoring** - AHT20 sensor via I2C protocol (RPi 5) with 2-second intervals
 - 📊 **Live Visualisation** - Chart.js graphs with auto-scaling axes
 - 📧 **Smart Alerts** - Email notifications when temperature exceeds/falls outside 17-26°C 
 
@@ -58,13 +58,24 @@ Although I built this to monitor environmental conditions in my own greenhouse, 
 ```mermaid
 graph LR
     A[Browser] --> B[nginx:80]
-    B --> C[Gunicorn:5000]
+    B --> C[Gunicorn:your_port]
     C --> D[Flask API]
     D --> E[Redis Cache]
     F[Sensor Service] --> E
-    F --> G[AHT20 I2C]
+    F --> G[Adafruit AHT20]
 ```
 
+## Trade-offs
+#### Simplified trade-off table:
+| Design Choice | Benefits | Trade-offs |
+|---------------|----------|------------|
+| **Microservices** (Sensor + Web) | • 4 parallel workers (200+ req/s)<br>• No I2C conflicts<br>• Independent scaling | • Two processes to manage<br>• Redis dependency<br>• More complexity |
+| **Redis cache** | • Sub-millisecond reads<br>• Shared state across Gunicorn workers<br> | • Volatile storage (no persistence)<br>• Additional service to run |
+| **nginx reverse proxy** | • 10-100x faster static files<br>• Easy HTTPS/caching<br>• Path-based routing for multiple apps | • Extra configuration<br>• Another component to maintain |
+| **Gunicorn (4 workers)** | • Parallel request handling<br>• Process management<br>• Auto-restart on crash | • Lack of static file serving (nginx solves this)<br>• Overkill for low traffic |
+| **SMTP email alerts** | • Universal (no app needed)<br>• Built into Python<br>• Quick setup| • 2-10 second latency<br>• Requires credentials<br>• Rate limited |
+| **Rolling window** (5 readings) | • Minimal memory (~500 bytes)<br>• Auto-cleanup<br>• Simple implementation | • No historical data<br>• Can't analyse long-term trends<br>• Only 10 seconds stored |
+| **JavaScript** | • Fast loading<br>• Effective for simple scripts<br>• Easy debugging | • Limited to less complex UIs |
 
 ## 📦 Installation & Setup
 
@@ -291,6 +302,7 @@ environmental-monitoring-dashboard/
 │   └── index.html        # Dashboard
 ├── static/
 │   └── styles.css        # Styling
+│   └── app.js       
 └── requirements.txt      # Dependencies
 ```
 
