@@ -215,11 +215,16 @@ ALERT_COOLDOWN=180 # Seconds between alerts
 
 
 ## ⚡️Performance
-<p> <b>NOTE</b>: This is what I achieved under my conditions, your results will vary.</p>
-- **Throughput:** 250+ requests/second
-- **Response Time:** Sub-40ms average
-- **Workers:** 4 parallel Gunicorn processes
-- **Cache:** 5-reading rolling window (10 seconds)
+**NOTE**: This is what I achieved under my conditions, your results will vary.
+
+| Measure  | Outcome |
+|----------|-------------|
+| Throughput | 250+ requests/second |
+| Response Time | Sub-40ms average |
+| Workers | 4 parallel Gunicorn processes |
+| Cache | 5-reading rolling window (10 seconds) |
+
+
 
 ### **APACHE BENCHMARK RESULTS**
 
@@ -283,7 +288,7 @@ Whilst I was developing, I faced permission problems and it may happen to you so
 | `chmod 711` | `rwx--x--x` | Read, Write, Execute | Execute | Execute | Private Directories
 
 ### Adafruit related issues, circuitpython and more
-It's important that you read information on the AHT20 hardware and Raspberry Pi itself. Useful links:
+It's important that you read information on the AHT20 hardware and Raspberry Pi itself. Useful links I used while developing:
 - https://learn.adafruit.com/adafruit-aht20/python-circuitpython
 - https://learn.adafruit.com/circuitpython-on-raspberrypi-linux/overview
 - https://gallaugher.com/makersnack-installing-circuitpython-on-a-raspberry-pi/ and https://www.youtube.com/watch?v=Epy6RvvpHOQ
