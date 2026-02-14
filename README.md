@@ -1,5 +1,5 @@
 
-# Environmental Monitoring Dashboard (README CURRENTLY A WIP)
+# Environmental Monitoring Dashboard 
 
 <div align="center">
 
