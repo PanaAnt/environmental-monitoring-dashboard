@@ -16,7 +16,7 @@ Real-time IoT temperature and humidity monitoring with a dashboard and automated
 [Usage](#usage)
 
 ![rpienvirodashboard-lq](https://github.com/user-attachments/assets/dd160694-80ed-43d0-bb2b-1ef3f4e3ce89)
-<p><b>*sped-up 2x</b></p>
+<p><b>showcase is sped-up 2x</b></p>
 </div>
 
 ---
@@ -69,9 +69,9 @@ graph LR
 #### Simplified trade-off table:
 | Design Choice | Benefits | Trade-offs |
 |---------------|----------|------------|
-| **Microservices** (Sensor + Web) | • 4 parallel workers (200+ req/s)<br>• No I2C conflicts<br>• Independent scaling | • Two processes to manage<br>• Redis dependency<br>• More complexity |
+| **Microservices** (Sensor + Web) | • 4 parallel workers (250+ req/s)<br>• No I2C conflicts<br>• Independent scaling | • Two processes to manage<br>• Redis dependency<br>• More complexity |
 | **Redis cache** | • Sub-millisecond reads<br>• Shared state across Gunicorn workers<br> | • Volatile storage (no persistence)<br>• Additional service to run |
-| **nginx reverse proxy** | • 10-100x faster static files<br>• Easy HTTPS/caching<br>• Path-based routing for multiple apps | • Extra configuration<br>• Another component to maintain |
+| **nginx reverse proxy** | • faster static files<br>• Easy HTTPS/caching<br>• Path-based routing for multiple apps | • Extra configuration<br>• Another component to maintain |
 | **Gunicorn (4 workers)** | • Parallel request handling<br>• Process management<br>• Auto-restart on crash | • Lack of static file serving (nginx solves this)<br>• Overkill for low traffic |
 | **SMTP email alerts** | • Universal (no app needed)<br>• Built into Python<br>• Quick setup| • 2-10 second latency<br>• Requires credentials<br>• Rate limited |
 | **Rolling window** (5 readings) | • Minimal memory (~500 bytes)<br>• Auto-cleanup<br>• Simple implementation | • No historical data<br>• Can't analyse long-term trends<br>• Only 10 seconds stored |
